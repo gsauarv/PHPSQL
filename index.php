@@ -5,14 +5,14 @@
       include 'include/dbConnection.php';
       $fname = $_POST['fname'];
       $lname = $_POST['lname'];
-      $sql = "INSERT INTO people (fname,lname) VALUES ('$fname','$lname');";
-      if (!mysqli_query($conn,$sql)) {
-        // code...
-        die('error INserting New Record');
-      }
-
+      $sql = "INSERT INTO people (fname,lname) VALUES (?,?);";
+      // Prepared Statements
+      $stmt = $conn->prepare($sql);
+      $stmt ->bind_param("ss",$fname,$lname);
+      $stmt->execute();
+      $stmt->close();
+      $conn->close();
       $newrecord = "1 record";
-
   }
 
  ?>
