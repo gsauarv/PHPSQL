@@ -1,5 +1,20 @@
 <?php
-  include 'include/dbConnection.php';
+
+  if(isset($_POST['submitted']))
+  {
+      include 'include/dbConnection.php';
+      $fname = $_POST['fname'];
+      $lname = $_POST['lname'];
+      $sql = "INSERT INTO people (fname,lname) VALUES ('$fname','$lname');";
+      if (!mysqli_query($conn,$sql)) {
+        // code...
+        die('error INserting New Record');
+      }
+
+      $newrecord = "1 record";
+
+  }
+
  ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -8,5 +23,22 @@
     <title></title>
   </head>
   <body>
+    <h1>Insert Data into Table</h1>
+    <form method="post" action="index.php">
+      <input type="hidden" name="submitted" value="true">
+      <fieldset>
+        <legend>New People</legend>
+          <label>First Name<input type="text" name="fname" /></label>
+          <label>Last Name<input type="text" name="lname" /></label>
+
+      </fieldset>
+
+      <br>
+      <input type="submit" value="add new person">
+    </form>
+
+    <?php
+      echo $newrecord;
+     ?>
   </body>
 </html>
